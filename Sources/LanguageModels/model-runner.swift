@@ -28,21 +28,11 @@ public struct ModelRunner: Sendable {
 
         return generated
     }
-}
 
-public struct TypedModelRunner<Returnable: ModelReturnable>: Sendable {
-    public let instructions: ModelInstructions
-
-    public init(
-        instructions: ModelInstructions,
-    ) {
-        self.instructions = instructions
-    }
-
-    public func execute() async throws -> Returnable {
-        let runner = ModelRunner(instructions: instructions)
-        let raw = try await runner.execute()
-
-        return try Returnable.parse(from: raw)
+    public func stream(options: GenerationOptions = GenerationOptions()) throws -> LanguageModelSession.ResponseStream<String> {
+        let session = LanguageModelSession(model: .default, tools: [])
+        return session.streamResponse(options: options) {
+            prompt
+        }
     }
 }
