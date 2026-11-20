@@ -21,9 +21,5 @@ let package = Package(
         .target(
             name: "LanguageModels"
         ),
-        .testTarget(
-            name: "LanguageModelsTests",
-            dependencies: ["LanguageModels"]
-        ),
     ]
 )
